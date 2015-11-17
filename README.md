@@ -26,3 +26,5 @@ SECRET=yoursercret #the secret to use with JWT
 ## Create your handler function
 
 ### Create and use your Json Web token
+
+This example is using [hapi-auth-jwt2](https://github.com/dwyl/hapi-auth-jwt2) to manage the authentication
