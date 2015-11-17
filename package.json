@@ -4,7 +4,7 @@
   "description": "Example using hapi-auth-google",
   "main": "lib/start.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/istanbul cover ./node_modules/tape/bin/tape ./test/*.test.js",
     "start": "node lib/start.js"
   },
   "repository": {
@@ -29,5 +29,10 @@
     "hapi-auth-google": "^1.0.4",
     "hoek": "^3.0.4",
     "vision": "^4.0.1"
+  },
+  "devDependencies": {
+    "istanbul": "^0.4.0",
+    "nock": "^3.1.0",
+    "tape": "^4.2.2"
   }
 }
