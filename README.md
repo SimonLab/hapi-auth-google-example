@@ -3,7 +3,10 @@
 An example on how you can use [hapi-auth-google](https://github.com/dwyl/hapi-auth-google) with you application!
 
 [![Build Status](https://travis-ci.org/SimonLab/hapi-auth-google-example.svg?branch=master)](https://travis-ci.org/SimonLab/hapi-auth-google-example)
+![dependencies](https://david-dm.org/SimonLab/hapi-auth-google-example.svg)
 # How to run it?
+
+
 
 Clone the repository:
 
