@@ -1,0 +1,33 @@
+{
+  "name": "hapi-auth-google-example",
+  "version": "1.0.0",
+  "description": "Example using hapi-auth-google",
+  "main": "lib/start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node lib/start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SimonLab/hapi-auth-google-example.git"
+  },
+  "keywords": [
+    "hapi",
+    "google",
+    "auth"
+  ],
+  "author": "SimonLab",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SimonLab/hapi-auth-google-example/issues"
+  },
+  "homepage": "https://github.com/SimonLab/hapi-auth-google-example#readme",
+  "dependencies": {
+    "env2": "^2.0.4",
+    "handlebars": "^4.0.4",
+    "hapi": "^11.1.1",
+    "hapi-auth-google": "^1.0.4",
+    "hoek": "^3.0.4",
+    "vision": "^4.0.1"
+  }
+}
