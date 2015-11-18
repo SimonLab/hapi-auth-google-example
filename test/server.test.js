@@ -1,5 +1,7 @@
 require('env2')('.env');
-var RedisClient = require('redis-connection')();
+var googleAuthHandler = require('../lib/google_oauth_handler');
+var validate = require('../lib/validate.js');
+var redisClient = require('redis-connection')();
 var test = require('tape');
 var Server = require('../lib/server.js');
 var dir  = __dirname.split('/')[__dirname.split('/').length-1];
@@ -79,8 +81,13 @@ test('Mock /googleauth?code=oauth2codehere', function(t) {
       console.log(' - - - - - - - - - - - - - - - - - -');
       server.stop(function(){
       console.log('why is this not working?')
-        RedisClient.end();
+        redisClient.end();
+        console.log('end first redis');
+        googleAuthHandler.redisClient.end();
+        console.log('end seconde redis');
+        validate.redisClient.end();
         t.end();
+        console.log('end test');
       });
     });
 
