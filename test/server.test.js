@@ -38,7 +38,7 @@ test('/googleauth?code=oauth2codehere', function(t) {
 
   Server.init(0, function(err, server) {
     server.inject(options, function(response) {
-    t.equal(response.statusCode, 200, "Server is working.");
+    t.equal(response.statusCode, 200, "Try to get a google token with a bad code");
     t.ok(response.payload.indexOf('something went wrong') > -1,
           'Got: '+response.payload + ' (As Expected)');
     server.stop(t.end);
@@ -73,24 +73,18 @@ test('Mock /googleauth?code=oauth2codehere', function(t) {
 
     server.inject(options, function(response) {
 
-      t.equal(response.statusCode, 200, "Server is working.");
+      t.equal(response.statusCode, 200, "Get a google token with a right code");
       var expected = 'Hello Alex You Logged in Using Goolge!';
       t.equal(response.payload, expected, "")
       console.log(' - - - - - - - - - - - - - - - - - -');
       console.log(response.payload);
       console.log(' - - - - - - - - - - - - - - - - - -');
       server.stop(function(){
-      console.log('why is this not working?')
         redisClient.end();
-        console.log('end first redis');
         googleAuthHandler.redisClient.end();
-        console.log('end seconde redis');
         validate.redisClient.end();
         t.end();
-        console.log('end test');
       });
     });
-
   });
-
 });

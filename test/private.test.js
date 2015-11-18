@@ -15,7 +15,7 @@ test(file+'Visit /private without a JWT cookie', function(t) {
 
   Server.init(0, function (err, server) {
     server.inject(options, function(response) {
-      t.equal(response.statusCode, 401, "endpoint /private 401 not Authorized.");
+      t.equal(response.statusCode, 401, "endpoint /private 401 not Authorized: No cookie sent to the server");
       server.stop(t.end);
     });
   })
@@ -32,13 +32,13 @@ test("Attempt to access restricted content with WRONG Token", function(t) {
   // server.inject lets us similate an http request
   Server.init(0, function (err, server) {
     server.inject(options, function(response) {
-      t.equal(response.statusCode, 401, "Wrong Token !");
+      t.equal(response.statusCode, 401, "Try to access the private page with a wrong Token !");
       server.stop(t.end);
     });
   })
 });
 
-test("Attempt to access restricted content with WRONG Token", function(t) {
+test("Authentication ok: right JWT token and valid property to true", function(t) {
 
   redisClient.set(12, JSON.stringify({ id: 12, "name": "Simon", valid: true}), function (err, res) {
 
@@ -51,7 +51,7 @@ test("Attempt to access restricted content with WRONG Token", function(t) {
     // server.inject lets us similate an http request
     Server.init(0, function (err, server) {
       server.inject(options, function(response) {
-        t.equal(response.statusCode, 200, "Valid Token !");
+        t.equal(response.statusCode, 200, "Get the private page: Right JWT token!");
         server.stop(function(){
         });
         t.end();
@@ -60,7 +60,7 @@ test("Attempt to access restricted content with WRONG Token", function(t) {
   });
 });
 
-test("Attempt to access restricted content with WRONG Token", function(t) {
+test("Authentication failed: right JWT token but valid property is false", function(t) {
 
   redisClient.set(123, JSON.stringify({ id: 123, "name": "Charlie", valid: false}), function (err, res) {
 
@@ -73,7 +73,7 @@ test("Attempt to access restricted content with WRONG Token", function(t) {
     // server.inject lets us similate an http request
     Server.init(0, function (err, server) {
       server.inject(options, function(response) {
-        t.equal(response.statusCode, 401, "Invalid Token !");
+        t.equal(response.statusCode, 401, "Right token but property valid false !");
         server.stop(function(){
           redisClient.end();
         });
@@ -84,7 +84,7 @@ test("Attempt to access restricted content with WRONG Token", function(t) {
 });
 
 //id not find in redis!
-test("Attempt to access restricted content with WRONG Token", function(t) {
+test("Authentication failed: right token but user doesn't exist in Redis", function(t) {
   var token =  JWT.sign({ id: 42, "name": "Charlie"}, process.env.JWT_SECRET);
   var options = {
     method: "GET",
@@ -94,7 +94,7 @@ test("Attempt to access restricted content with WRONG Token", function(t) {
   // server.inject lets us similate an http request
   Server.init(0, function (err, server) {
     server.inject(options, function(response) {
-      t.equal(response.statusCode, 401, "Invalid Token !");
+      t.equal(response.statusCode, 401, "Right Token but user doesn't exist in Redis!");
       server.stop(t.end);
     });
   })
