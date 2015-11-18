@@ -1,9 +1,14 @@
+require('env2')('.env');
+var RedisClient = require('redis-connection')();
 var test = require('tape');
 var Server = require('../lib/server.js');
 var dir  = __dirname.split('/')[__dirname.split('/').length-1];
 var file = dir + __filename.replace(__dirname, '') + " > ";
 var fs = require('fs');
 var nock = require('nock');
+
+
+console.log(process.env.JWT_SECRET);
 
 test(file+'Visit / root url expect to see a link', function(t) {
 
@@ -72,7 +77,11 @@ test('Mock /googleauth?code=oauth2codehere', function(t) {
       console.log(' - - - - - - - - - - - - - - - - - -');
       console.log(response.payload);
       console.log(' - - - - - - - - - - - - - - - - - -');
-      server.stop(t.end);
+      server.stop(function(){
+      console.log('why is this not working?')
+        RedisClient.end();
+        t.end();
+      });
     });
 
   });
