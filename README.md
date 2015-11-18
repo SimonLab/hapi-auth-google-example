@@ -59,10 +59,21 @@ The following diagram explains in detail the steps of authorization:
 
 
 
-So at the end of the authorization (and if everything is ok) you server will receive a token from Google App. This token is used to identify your users with your Google App.
+So at the end of the authorization (and if everything is ok) your server will receive a token from Google App. This token is used to identify your users with your Google App.
+
 ## Authentication
 
-## Create your custom handler function
+We are using JWT to handle authentication. You need the following steps:
+
+- create your JWT. We are encoding our JWT with a SECRET keyword of your choice (choose a difficult one to guess!)
+- We are saving in Redis the profile with the new jwt.
+- We are sending back our jwt to the browser (header authorization) and save it (cookie or local storage)
+- When the browser asking for a protected page, the jwt is sent to the server
+- We are checking the jwt and if it's correct we are retreiving our object from Redis to be able to use the Google token.
+
+All these steps are implemented inside your custom handler function. This function defined what to do as soon as we receive the token from Google App.
+
+### Define your custom handler function
 
 The custom handler function has to main goals after the authorization is done (you receive a token from your Google app):
 
@@ -73,4 +84,13 @@ If the authorization is successful, your Google app will return a token to your 
 
 For this example we will use [hapi-auth-jwt2](https://github.com/dwyl/hapi-auth-jwt2) to manage the authentication
 
-### Create and use your Json Web token
+## Logout from the app
+
+JWT is a stateless process, this means that unlike standard authentication we don't use any session on the server to store the state of the user (login or not). Instead we use the HTTP request header to pass our JWT. To keep track of the status of our users we are using Redis and define if a user has the right to login or not. 
+
+# Question
+
+* Which method do I need to use to store the JWT token on the browser (local storage or cookie?)
+* Is it safe to use a unique secret keyword to encrypt all of your JWT
+* Why are we using Redis to strore our JWT?
+* How to logout?
