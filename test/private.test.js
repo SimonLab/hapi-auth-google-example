@@ -22,22 +22,6 @@ test(file+'Visit /private without a JWT cookie', function(t) {
 
 });
 
-// test("Attempt to access restricted content with VALID Token but malformed Cookie", function(t) {
-//   //var token =  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmaXN0bmFtZSI6IkFsZXgiLCJpbWFnZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS8tWGRVSXFkTWtDV0EvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvNDI1MnJzY2J2NU0vcGhvdG8uanBnP3N6PTUwIiwiaWQiOiIxMDA3NjAxNTIyNTQ3NzkwNjE1OTQiLCJhZ2VudCI6InNob3QiLCJpYXQiOjE0NDc4NTA0NjN9.zcimChNyt0xjig1gtcRjk3neyXBaB3TP5KD-B1Tcxy8"  //JWT.sign({ id: 123, "name": "Charlie" }, secret);
-//   var options = {
-//     method: "GET",
-//     url: "/private",
-//     headers: { cookie: "token=" + token }
-//   };
-//   // server.inject lets us similate an http request
-//   Server.init(0, function (err, server) {
-//     server.inject(options, function(response) {
-//       t.equal(response.statusCode, 200, "Valid Token !");
-//       server.stop(t.end);
-//     });
-//   })
-// });
-
 test("Attempt to access restricted content with WRONG Token", function(t) {
   var token =  "wrongeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmaXN0bmFtZSI6IkFsZXgiLCJpbWFnZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS8tWGRVSXFkTWtDV0EvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvNDI1MnJzY2J2NU0vcGhvdG8uanBnP3N6PTUwIiwiaWQiOiIxMDA3NjAxNTIyNTQ3NzkwNjE1OTQiLCJhZ2VudCI6InNob3QiLCJpYXQiOjE0NDc4NTA0NjN9.zcimChNyt0xjig1gtcRjk3neyXBaB3TP5KD-B1Tcxy8"  //JWT.sign({ id: 123, "name": "Charlie" }, secret);
   var options = {
