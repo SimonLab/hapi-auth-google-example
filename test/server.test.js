@@ -1,9 +1,16 @@
+require('env2')('.env');
+var googleAuthHandler = require('../lib/google_oauth_handler');
+var validate = require('../lib/validate.js');
+var redisClient = require('redis-connection')();
 var test = require('tape');
 var Server = require('../lib/server.js');
 var dir  = __dirname.split('/')[__dirname.split('/').length-1];
 var file = dir + __filename.replace(__dirname, '') + " > ";
 var fs = require('fs');
 var nock = require('nock');
+
+
+console.log(process.env.JWT_SECRET);
 
 test(file+'Visit / root url expect to see a link', function(t) {
 
@@ -31,7 +38,7 @@ test('/googleauth?code=oauth2codehere', function(t) {
 
   Server.init(0, function(err, server) {
     server.inject(options, function(response) {
-    t.equal(response.statusCode, 200, "Server is working.");
+    t.equal(response.statusCode, 200, "Try to get a google token with a bad code");
     t.ok(response.payload.indexOf('something went wrong') > -1,
           'Got: '+response.payload + ' (As Expected)');
     server.stop(t.end);
@@ -66,15 +73,18 @@ test('Mock /googleauth?code=oauth2codehere', function(t) {
 
     server.inject(options, function(response) {
 
-      t.equal(response.statusCode, 200, "Server is working.");
+      t.equal(response.statusCode, 200, "Get a google token with a right code");
       var expected = 'Hello Alex You Logged in Using Goolge!';
       t.equal(response.payload, expected, "")
       console.log(' - - - - - - - - - - - - - - - - - -');
       console.log(response.payload);
       console.log(' - - - - - - - - - - - - - - - - - -');
-      server.stop(t.end);
+      server.stop(function(){
+        redisClient.end();
+        googleAuthHandler.redisClient.end();
+        validate.redisClient.end();
+        t.end();
+      });
     });
-
   });
-
 });
