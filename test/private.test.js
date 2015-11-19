@@ -76,7 +76,6 @@ test("Authentication failed: right JWT token but valid property is false", funct
       server.inject(options, function(response) {
         t.equal(response.statusCode, 302, "Right token but property valid false! Redirection to /");
         server.stop(function(){
-          redisClient.end();
         });
         t.end();
       });
@@ -97,6 +96,9 @@ test("Authentication failed: right token but user doesn't exist in Redis", funct
     server.inject(options, function(response) {
       t.equal(response.statusCode, 302, "Right Token but user doesn't exist in Redis!, Redirection to /");
       server.stop(t.end);
+      //get the current redis connection and close it
+      var redisClient = require('redis-connection')();
+      redisClient.end();
     });
   })
 });

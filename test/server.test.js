@@ -1,7 +1,5 @@
 require('env2')('.env');
 var googleAuthHandler = require('../lib/google_oauth_handler');
-//var validate = require('../lib/validate.js');
-//var redisClient = require('redis-connection')();
 var test = require('tape');
 var Server = require('../lib/server.js');
 var dir  = __dirname.split('/')[__dirname.split('/').length-1];
